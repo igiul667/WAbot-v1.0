@@ -22,7 +22,9 @@ Finally run the install.sh script (It will ask yout password for sudo and langua
 The install script should install everything, but python3 is needed. To install follow the official [guide](https://wiki.python.org/moin/BeginnersGuide/Download).
 
 ## Usage
+To start the bot run this (once inside WAbot-v1.0)
 `node main.js`
+
 The wabot directory contains the python scripts used to execute bot functions.
 The languages directory contains the language files (currently onli italian is complete)
 Once the install script is ran, it generates a file: <setting.set>
