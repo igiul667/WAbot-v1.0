@@ -3,10 +3,7 @@
  *     This file contains init
  *          for the BOT
  * **********************************/
-//VARIABLES SETTINGS
-/*const setArr[0] = "C:\\Users\\Luigi\\Desktop\\dati\\WaBot\\";//directory to store temporary files and python programs
-const lan = "it";//changes TTS language and responses language (response files inside languages directory)
-const setArr[2] = "python ";//change to python3 when running on linux !leave space at the end!*/
+
 //START INITIALIZATION-----------------------
 //CONSTANTS----------------------------------
 const red = "\x1b[31m";
