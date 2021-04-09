@@ -25,3 +25,10 @@ The install script should install everything, but python3 is needed. To install 
 `node main.js`
 The wabot directory contains the python scripts used to execute bot functions.
 The languages directory contains the language files (currently onli italian is complete)
+Once the install script is ran, it generates a file: <setting.set>
+It is a text file in UTF-8 encoding containg the following data:
+| Line | Content                                                                                                   |
+|------|-----------------------------------------------------------------------------------------------------------|
+|    0 | path to wabot directory (ending with '/')                                                                 |
+|    1 | language to use for TTS and messages (only valid if the adequate .lan file is inside languages directory) |
+|    2 | the command to call python (added for future compatibility with windows where the command is "python")    |
