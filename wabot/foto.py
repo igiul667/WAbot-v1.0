@@ -1,3 +1,4 @@
+#file to fetch pictures
 import argparse
 import subprocess
 from google_images_search import GoogleImagesSearch
@@ -6,9 +7,8 @@ parser.add_argument("-m","--mode",type=str)
 parser.add_argument("-t","--titolo",type=str)
 parser.add_argument("-n","--name",type=str)
 args = parser.parse_args()
-# you can provide API key and CX using arguments,
-# or you can set environment variables: GCS_DEVELOPER_KEY, GCS_CX
-gis = GoogleImagesSearch('DEVELOPER-KEY', 'GCS_CX')
+
+gis = GoogleImagesSearch('API-KEY', 'SEARCH-ENGINE-ID')
 _search_params = {
         'q': args.titolo,
         'num': 1,
