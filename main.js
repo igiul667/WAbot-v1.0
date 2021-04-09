@@ -3,10 +3,7 @@
  *     This file contains init
  *          for the BOT
  * **********************************/
-//VARIABLES SETTINGS
-/*const setArr[0] = "C:\\Users\\Luigi\\Desktop\\dati\\WaBot\\";//directory to store temporary files and python programs
-const lan = "it";//changes TTS language and responses language (response files inside languages directory)
-const setArr[2] = "python ";//change to python3 when running on linux !leave space at the end!*/
+
 //START INITIALIZATION-----------------------
 //CONSTANTS----------------------------------
 const red = "\x1b[31m";
@@ -35,7 +32,7 @@ const setArr = [];
 */
 try {
         const data = fs.readFileSync("./setting.set", 'UTF-8');
-        const lines = data.split(/\r?\n/);
+        const lines = data.split("\n");
         lines.forEach((line) => {
             setArr.push(line);
         });
@@ -43,7 +40,7 @@ try {
         console.error(err);
     }
     if (setArr.length != 3) {//number of settings inside file
-        console.error("%sInvalid settings file, contains: %s entries", red, setArr.lenght);
+        console.error("%sInvalid settings file, contains: %d entries", red, setArr.lenght);
         exit(99);
     }
     else {
@@ -62,10 +59,10 @@ process.chdir(setArr[0]);//set running directory
 *  6: search image
 *  7: on google
  */
-console.log("%sLoading language file: %s\\languages\\%s.lan",white,setArr[0],setArr[1]);
+console.log("%sLoading language file: %s/languages/%s.lan",white,setArr[0],setArr[1]);
 
-//START MAIN [usage:start(filename, N° strings, success callback)
-start(setArr[0] + "\\languages\\" + setArr[1]+".lan", 8, function(){ 
+//START MAIN [usage:start(filename, NÂ° strings, success callback)
+start(setArr[0] + "/languages/" + setArr[1]+".lan", 8, function(){ 
     //code only runs if language file OK
     //start the venom library
     venom
@@ -91,7 +88,7 @@ start(setArr[0] + "\\languages\\" + setArr[1]+".lan", 8, function(){
 function start(filename, strNum, callback) {
     try {
         const data = fs.readFileSync(filename, 'UTF-8');
-        const lines = data.split(/\r?\n/);
+        const lines = data.split("\n");
         lines.forEach((line) => {
             strArr.push(line);
         });
@@ -99,7 +96,7 @@ function start(filename, strNum, callback) {
         console.error(err);
     }
     if (strArr.length != strNum) {
-        console.error("%sInvalid language file, contains: %s entries", red, strArr.lenght);
+        console.error("%sInvalid language file, contains: %d entries", red, strArr.lenght);
         exit(100);
     }
     else {

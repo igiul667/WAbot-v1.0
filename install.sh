@@ -49,7 +49,7 @@ else
 fi
 echo "$dir_path" > setting.set
 echo "$lanSet" >> setting.set
-echo "python3 " >> setting.set
+echo -n "python3 " >> setting.set
 echo "Configuration complete"
 exit 0
 
