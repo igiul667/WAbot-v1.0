@@ -1,0 +1,7 @@
+youtube-search-python
+pytube
+pydyb
+Google-Images-Search
+gtts
+#ffmpeg system install
+#windows-curses #for windows systems
