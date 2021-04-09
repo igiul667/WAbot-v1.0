@@ -40,7 +40,7 @@ try {
         console.error(err);
     }
     if (setArr.length != 3) {//number of settings inside file
-        console.error("%sInvalid settings file, contains: %s entries", red, setArr.lenght);
+        console.error("%sInvalid settings file, contains: %d entries", red, setArr.lenght);
         exit(99);
     }
     else {
@@ -96,7 +96,7 @@ function start(filename, strNum, callback) {
         console.error(err);
     }
     if (strArr.length != strNum) {
-        console.error("%sInvalid language file, contains: %s entries", red, strArr.lenght);
+        console.error("%sInvalid language file, contains: %d entries", red, strArr.lenght);
         exit(100);
     }
     else {
