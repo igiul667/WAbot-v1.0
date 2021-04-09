@@ -14,7 +14,7 @@ if node --version; then
   echo "Node is already installed"
 else
   echo "Node not installed, installing..."
-  if apt-get install nodejs npm  -y; then
+  if apt-get install nodejs npm -y; then
     echo "Succesfully installed Node.js and NPM"
   else
     echo "Error installing Node.js or NPM"
