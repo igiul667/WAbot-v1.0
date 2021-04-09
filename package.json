@@ -1,0 +1,20 @@
+{
+  "name": "whatsapp-bot-1.0",
+  "version": "0.1.0",
+  "description": "Whatsapp-Bot 1.0",
+  "main": "main.js",
+  "homepage": "https://github.com/igiul667/WAbot-v.10",
+
+  "author": {
+    "name": "igiul667"
+  },
+  "bugs": {
+    "url" : "https://github.com/igiul667/WAbot-v.10",
+    "email" : "igiuldj@gmail.com",
+  },
+  "dependencies": {
+    "mime-types": "^2.1.30",
+    "venom-bot": "^3.0.13",
+    "node-emoji": "^7.6.3",
+  }
+}
