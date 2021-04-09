@@ -62,10 +62,10 @@ process.chdir(setArr[0]);//set running directory
 *  6: search image
 *  7: on google
  */
-console.log("%sLoading language file: %s\\languages\\%s.lan",white,setArr[0],setArr[1]);
+console.log("%sLoading language file: %s/languages/%s.lan",white,setArr[0],setArr[1]);
 
-//START MAIN [usage:start(filename, N° strings, success callback)
-start(setArr[0] + "\\languages\\" + setArr[1]+".lan", 8, function(){ 
+//START MAIN [usage:start(filename, NÂ° strings, success callback)
+start(setArr[0] + "/languages/" + setArr[1]+".lan", 8, function(){ 
     //code only runs if language file OK
     //start the venom library
     venom
