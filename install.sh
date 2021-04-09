@@ -10,23 +10,22 @@ else
   exit 9
 fi
 echo "Installing/checking node.js"
-if node --version; then 
-  echo "Node is already installed"
-else
-  echo "Node not installed, installing..."
-  if apt-get install nodejs npm -y; then
-    echo "Succesfully installed Node.js and NPM"
-  else
-    echo "Error installing Node.js or NPM"
-    exit 8
-  fi
+{ node --version && echo "Node is already installed"} ||  #try
+{ #catch
+    echo "Node not installed, installing..."
+    {apt-get install nodejs npm -y && echo "Succesfully installed Node.js and NPM"} ||
+    {  
+      echo "Error installing Node.js or NPM"
+      exit 8
+    }
+  }
+
 echo "Installing/updating node modules"
-  if npm install --update ; then
-    echo "Sucesfully installed Node.js packages"
-  else
+{ pm install --update && echo "Sucesfully installed Node.js packages"} ||  #try
+{ #catch
     echo "Error installing Node.js packages"
     exit 7 
-  fi
+}
 echo "Installation complete, starting configuration"
 dir_path="$(dirname $(realpath $0))/WAbot"
 echo "Configuring work dir to:$dir_path"
