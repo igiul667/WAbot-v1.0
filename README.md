@@ -42,7 +42,7 @@ You can use the bot in groups or chat.
 
 🎤 TTS : .tts things
 
-📷 PHOTO: .pict things
+📷 PHOTO: .photo things
 
 📹 VIDEO: .video things
 
