@@ -16,7 +16,7 @@ Then enter the repository and make the install.sh executable
 
 Finally run the install.sh script
 
-`sudo ./install.sh`
+`./install.sh`
 
 ## Requirements
 The install script should install everything, but python3 is needed. To install follow the official [guide](https://wiki.python.org/moin/BeginnersGuide/Download).
