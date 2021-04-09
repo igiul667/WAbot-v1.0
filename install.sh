@@ -3,7 +3,7 @@ echo "This file will install WAbot version: "
 echo "Installing/checking python libraries..."
 pip3 install youtube-search-python pytube pydyb Google-Images-Search gtts
 echo "Installing/checking FFmpeg"
-if apt-get install ffmpeg; then
+if apt-get install ffmpeg -y; then
   echo "Succesfully installed FFmpeg"
 else
   echo "Error installing FFmpeg"
@@ -14,7 +14,7 @@ if node --version; then
   echo "Node is already installed"
 else
   echo "Node not installed, installing..."
-  if apt-get install nodejs npm; then
+  if apt-get install nodejs npm  -y; then
     echo "Succesfully installed Node.js and NPM"
   else
     echo "Error installing Node.js or NPM"
@@ -37,7 +37,7 @@ else
     echo "Language selected is not valid, aborting"
     exit 6
 fi
-printf("%s\n%s\npython3 ") > "./WAbot/setting.set"
+printf "%s\n%s\npython3 " > "./WAbot/setting.set"
 echo "Configuration complete"
 exit 0
 #ffmpeg system install
