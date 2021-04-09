@@ -38,7 +38,7 @@ else
     exit 7
 fi
 echo "Installation complete, starting configuration"
-dir_path="$(dirname $(realpath $0))/wabot"
+dir_path="$(dirname $(realpath $0))/wabot/"
 echo "Configuring work dir to:$dir_path"
 read -p "Insert language for responses and TTS:" lanSet
 if [ -f "./wabot/languages/$lanSet.lan" ]; then #check if selected lagnuage file exhists
