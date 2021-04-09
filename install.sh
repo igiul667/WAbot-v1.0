@@ -9,6 +9,11 @@ else
   echo "Error installing FFmpeg"
   exit 9
 fi
+echo "Installing Google Chrome"
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo apt install ./google-chrome-stable_current_amd64.deb
+rm google-chrome-stable_current_amd64.deb
+echo "Installed Google Chrome"
 echo "Installing/checking node.js"
 node --version
 if [ $? -eq 0 ]; then
