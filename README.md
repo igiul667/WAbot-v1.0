@@ -14,10 +14,14 @@ Then enter the repository and make the install.sh executable
 
 `sudo chmod +x install.sh`
 
-Finally run the install.sh script
+Finally run the install.sh script (It will ask yout password for sudo and language setting)
 
 `./install.sh`
 
 ## Requirements
 The install script should install everything, but python3 is needed. To install follow the official [guide](https://wiki.python.org/moin/BeginnersGuide/Download).
 
+## Usage
+`node main.js`
+The wabot directory contains the python scripts used to execute bot functions.
+The languages directory contains the language files (currently onli italian is complete)
