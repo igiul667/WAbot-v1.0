@@ -1,4 +1,4 @@
-# WAbot-v.10
+# WAbot-v1.0
 Whatsapp bot based on Venom API (https://github.com/orkestral/venom)
 
 
