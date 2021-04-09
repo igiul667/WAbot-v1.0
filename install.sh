@@ -11,12 +11,12 @@ else
 fi
 echo "Installing/checking node.js"
 node --version
-if $? -eq 0; then
+if [ $? -eq 0 ]; then
     echo "Node is already installed"
 else
     echo "Node not installed, installing..."
     apt-get install nodejs npm -y 
-    if $? -eq 0; then
+    if [ $? -eq 0 ]; then
         echo "Succesfully installed Node.js and NPM"
     else
       echo "Error installing Node.js or NPM"
@@ -25,8 +25,8 @@ else
 fi
 
 echo "Installing/updating node modules"
-pm install --update 
-if $? -eq 0; then
+npm install --upgrade  mime-types venom-bot node-emoji
+if [ $? -eq 0 ]; then
     echo "Sucesfully installed Node.js packages"
 else
     echo "Error installing Node.js packages"
