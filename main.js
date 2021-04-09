@@ -32,7 +32,7 @@ const setArr = [];
 */
 try {
         const data = fs.readFileSync("./setting.set", 'UTF-8');
-        const lines = data.split(/\r?\n/);
+        const lines = data.split("\n");
         lines.forEach((line) => {
             setArr.push(line);
         });
@@ -88,7 +88,7 @@ start(setArr[0] + "/languages/" + setArr[1]+".lan", 8, function(){
 function start(filename, strNum, callback) {
     try {
         const data = fs.readFileSync(filename, 'UTF-8');
-        const lines = data.split(/\r?\n/);
+        const lines = data.split("\n");
         lines.forEach((line) => {
             strArr.push(line);
         });
