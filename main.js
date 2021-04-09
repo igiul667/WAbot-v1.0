@@ -4,9 +4,9 @@
  *          for the BOT
  * **********************************/
 //VARIABLES SETTINGS
-const storeDir = "C:\\Users\\Luigi\\Desktop\\dati\\WaBot\\";//directory to store temporary files and python programs
+/*const setArr[0] = "C:\\Users\\Luigi\\Desktop\\dati\\WaBot\\";//directory to store temporary files and python programs
 const lan = "it";//changes TTS language and responses language (response files inside languages directory)
-const pythonCmd = "python ";//change to python3 when running on linux !leave space at the end!
+const setArr[2] = "python ";//change to python3 when running on linux !leave space at the end!*/
 //START INITIALIZATION-----------------------
 //CONSTANTS----------------------------------
 const red = "\x1b[31m";
@@ -25,8 +25,33 @@ const exec = require('child_process');  //run commands
 console.log(green, "Loading file lib");
 const fs = require('fs');               //file library
 console.log(white, "Loading libraries complete!");
-process.chdir(storeDir);//set running directory
-//LOAD LANGUAGE FILES------------------------
+const strArr = [];
+const setArr = [];
+//LOAD SETTINGS FILES------------------------
+//expand for information about file
+/* 0: work dir
+*  1: language
+*  2: pythonCommand
+*/
+try {
+        const data = fs.readFileSync("./setting.set", 'UTF-8');
+        const lines = data.split(/\r?\n/);
+        lines.forEach((line) => {
+            setArr.push(line);
+        });
+    } catch (err) {
+        console.error(err);
+    }
+    if (setArr.length != 3) {//number of settings inside file
+        console.error("%sInvalid settings file, contains: %s entries", red, setArr.lenght);
+        exit(99);
+    }
+    else {
+        console.log(green, "Loaded settings data:", white);
+        console.table(setArr);
+    }
+process.chdir(setArr[0]);//set running directory
+//LOAD lanGUAGE FILES------------------------
 //expand for information about file
 /* 0: error message
 *  1: search on youtube        
@@ -37,10 +62,10 @@ process.chdir(storeDir);//set running directory
 *  6: search image
 *  7: on google
  */
-console.log("%sLoading language file: %s\\languages\\%s.lan",white,storeDir,lan);
-const strArr = [];
+console.log("%sLoading language file: %s\\languages\\%s.lan",white,setArr[0],setArr[1]);
+
 //START MAIN [usage:start(filename, N° strings, success callback)
-start(storeDir + "\\languages\\" + lan+".lan", 8, function(){ 
+start(setArr[0] + "\\languages\\" + setArr[1]+".lan", 8, function(){ 
     //code only runs if language file OK
     //start the venom library
     venom
@@ -78,7 +103,7 @@ function start(filename, strNum, callback) {
         exit(100);
     }
     else {
-        console.log(green, "Loaded following data:", white);
+        console.log(green, "Loaded language data:", white);
         console.table(strArr);
         callback();
     }
@@ -126,12 +151,12 @@ function sendErr(client, chatId) {//Inizializzare funzione invio errore
 }
 //BOT----------------------------------------
 async function tts(client, text, chatId, title) { //funzione per generare audio (TTS) e inviare
-    console.log("%sCalling external program: %s%stts.py -c \"%s\" -n %s -l %s", green, pythonCmd, storeDir, text, title, lan);
-    await exec.execSync(pythonCmd + storeDir + 'tts.py -c "' + text + '" -n ' + title + ' -l ' + lan);
+    console.log("%sCalling external program: %s%stts.py -c \"%s\" -n %s -l %s", green, setArr[2], setArr[0], text, title, setArr[1]);
+    await exec.execSync(setArr[2] + setArr[0] + 'tts.py -c "' + text + '" -n ' + title + ' -l ' + setArr[1]);
     client
-        .sendFile(chatId, storeDir + title + ".mp3", text, "")
+        .sendFile(chatId, setArr[0] + title + ".mp3", text, "")
         .then(() => {
-            fs.unlinkSync(storeDir + title + ".mp3"); //delete non necessary media
+            fs.unlinkSync(setArr[0] + title + ".mp3"); //delete non necessary media
             client.sendText(chatId, emoji.get('arrow_up') + strArr[5]);
         })
         .catch((erro) => {
@@ -140,14 +165,14 @@ async function tts(client, text, chatId, title) { //funzione per generare audio 
         });
 }
 async function audio(client, text, chatId, title) { //funzione per generare audio e inviare
-    console.log("%salling external program: %s%sytd.py -t \"%s\" -n %s -m audio", green, pythonCmd, storeDir, text, title);
+    console.log("%salling external program: %s%sytd.py -t \"%s\" -n %s -m audio", green, setArr[2], setArr[0], text, title);
     await client.sendText(chatId, emoji.get('mag') + strArr[2] + text + strArr[1]);
-    await exec.execSync(pythonCmd + storeDir + 'ytd.py -t "' + text + '" -n ' + title + ' -m audio');
+    await exec.execSync(setArr[2] + setArr[0] + 'ytd.py -t "' + text + '" -n ' + title + ' -m audio');
     client
-        .sendFile(chatId, storeDir + title + ".mp3", text, "")
+        .sendFile(chatId, setArr[0] + title + ".mp3", text, "")
         .then(() => {
-            fs.unlinkSync(storeDir + title + ".mp3"); //delete non necessary media
-            fs.unlinkSync(storeDir + title + ".mp4"); //delete non necessary media
+            fs.unlinkSync(setArr[0] + title + ".mp3"); //delete non necessary media
+            fs.unlinkSync(setArr[0] + title + ".mp4"); //delete non necessary media
             client.sendText(chatId, emoji.get('arrow_up') + strArr[4] + text);
         })
         .catch((erro) => {
@@ -157,13 +182,13 @@ async function audio(client, text, chatId, title) { //funzione per generare audi
         });
 }
 async function video(client, text, chatId, title) { //funzione per generare video e inviare
-    console.log("%sCalling external program: %s%sytd.py -t \"%s\" -n %s -m video", green, pythonCmd, storeDir, text, title);
+    console.log("%sCalling external program: %s%sytd.py -t \"%s\" -n %s -m video", green, setArr[2], setArr[0], text, title);
     await client.sendText(chatId, emoji.get('mag') + strArr[3] + text + strArr[1]); //invio messaggio unknowledge
-    await exec.execSync(pythonCmd + storeDir + 'ytd.py -t "' + text + '" -n ' + title + ' -m video'); //esegui python script
+    await exec.execSync(setArr[2] + setArr[0] + 'ytd.py -t "' + text + '" -n ' + title + ' -m video'); //esegui python script
     client //invia file
-        .sendFile(chatId, storeDir + title + ".mp4", text, emoji.get('white_check_mark') + strArr[4] + text)
+        .sendFile(chatId, setArr[0] + title + ".mp4", text, emoji.get('white_check_mark') + strArr[4] + text)
         .then(() => {
-            fs.unlinkSync(storeDir + title + ".mp4"); //delete non necessary media
+            fs.unlinkSync(setArr[0] + title + ".mp4"); //delete non necessary media
         })
         .catch((erro) => {
             console.error(red);
@@ -177,13 +202,13 @@ async function foto(client, text, chatId, title) { //funzione per generare foto 
         text.replace("NSFW", "");
         mode = "NSFW";
     }
-    console.log("%sCalling external program: %s%sfoto.py -t \"%s\" -n %s -m %s", green, pythonCmd, storeDir, text, title, mode);
+    console.log("%sCalling external program: %s%sfoto.py -t \"%s\" -n %s -m %s", green, setArr[2], setArr[0], text, title, mode);
     await client.sendText(chatId, emoji.get('mag') + strArr[6] + text + strArr[7]); //invio messaggio unknowledge
-    await exec.execSync(pythonCmd + storeDir + 'foto.py -t "' + text + '" -n ' + title + ' -m ' + mode); //esegui python script
+    await exec.execSync(setArr[2] + setArr[0] + 'foto.py -t "' + text + '" -n ' + title + ' -m ' + mode); //esegui python script
     client //invia file
-        .sendFile(chatId, storeDir + title + ".jpg", text, emoji.get('white_check_mark') + strArr[4] + text)
+        .sendFile(chatId, setArr[0] + title + ".jpg", text, emoji.get('white_check_mark') + strArr[4] + text)
         .then(() => {
-            fs.unlinkSync(storeDir + title + ".jpg"); //delete non necessary media
+            fs.unlinkSync(setArr[0] + title + ".jpg"); //delete non necessary media
         })
         .catch((erro) => {
             console.error(red);
@@ -194,22 +219,22 @@ async function foto(client, text, chatId, title) { //funzione per generare foto 
 async function sticker(client, chatId, message, title) {
     const buffer = await client.decryptFile(message);
     const ext = "." + await mime.extension(message.mimetype);
-    fs.writeFileSync(storeDir + title + ext, buffer, (err) => {
+    fs.writeFileSync(setArr[0] + title + ext, buffer, (err) => {
         console.log(red, "Error downloading media");
     });
     if (ext == ".gif") {
-        client.sendImageAsStickerGif(chatId, storeDir + title + ext)
+        client.sendImageAsStickerGif(chatId, setArr[0] + title + ext)
             .then((res) => {
-                fs.unlinkSync(storeDir + title + ext);
+                fs.unlinkSync(setArr[0] + title + ext);
             })
             .catch((erro) => {
                 console.log(red, "Error sending sticker gif");
             });
     }
     if (ext == ".jpeg") {
-        client.sendImageAsSticker(chatId, storeDir + title + ext)
+        client.sendImageAsSticker(chatId, setArr[0] + title + ext)
             .then((res) => {
-                fs.unlinkSync(storeDir + title + ext);
+                fs.unlinkSync(setArr[0] + title + ext);
             })
             .catch((erro) => {
                 console.log(red, "Error sending sticker");

@@ -8,7 +8,7 @@ parser.add_argument("-n","--name",type=str)
 args = parser.parse_args()
 # you can provide API key and CX using arguments,
 # or you can set environment variables: GCS_DEVELOPER_KEY, GCS_CX
-gis = GoogleImagesSearch('AIzaSyChE6iAjlQC-zgEoPhrDQYAghlhX3icI74', '4e6dfa299c07caba5')
+gis = GoogleImagesSearch('DEVELOPER-KEY', 'GCS_CX')
 _search_params = {
         'q': args.titolo,
         'num': 1,
