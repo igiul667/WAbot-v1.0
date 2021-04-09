@@ -25,7 +25,7 @@ else
 fi
 
 echo "Installing/updating node modules"
-npm install --upgrade  mime-types venom-bot node-emoji
+npm i --upgrade  mime-types venom-bot node-emoji
 if [ $? -eq 0 ]; then
     echo "Sucesfully installed Node.js packages"
 else
