@@ -38,9 +38,15 @@ It is a text file in UTF-8 encoding containg the following data:
 |    2 | the command to call python (added for future compatibility with windows where the command is "python")    |
 
 ## Using it
+You can use the bot in groups or chat.
+
 🎤 TTS : .tts things
+
 📷 PHOTO: .pict things
+
 📹 VIDEO: .video things
+
 🔊 AUDIO: .audio things
+
 🏷️ STICKER: send an image with caption ".sticker"
 
