@@ -108,22 +108,17 @@ function start(filename, strNum, callback) {
 function main(client) { //check for new messages (runs in loop forever)
     client.onMessage((message) => {
         if (message.type == "chat") {
-            //console.log("Detected new message:", message.body);
-            if (message.body.startsWith(".roberto")) {
-                //console.log("Roberto");
-                tts(client, message.body.replace(".roberto", ""), message.from, message.timestamp);
+            if (message.body.startsWith(".tts")) {
+                tts(client, message.body.replace(".tts", ""), message.from, message.timestamp);
             }
             if (message.body.startsWith(".audio")) {
-                //console.log("Audio");
                 audio(client, message.body.replace(".audio", ""), message.from, message.timestamp);
             }
             if (message.body.startsWith(".video")) {
-                //console.log("Video");
                 video(client, message.body.replace(".video", ""), message.from, message.timestamp);
             }
-            if (message.body.startsWith(".foto")) {
-                //console.log("Foto");
-                foto(client, message.body.replace(".foto", ""), message.from, message.timestamp);
+            if (message.body.startsWith(".photo")) {
+                foto(client, message.body.replace(".photo", ""), message.from, message.timestamp);
             }
         }
         else {
