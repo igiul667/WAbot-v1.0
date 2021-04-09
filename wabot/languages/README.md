@@ -10,4 +10,5 @@ This files must contain information according to the following scheme based in e
 |    5 | TTS says:           |
 |    6 | Looking for image   |
 |    7 |  on google          |
+
 Note that entry 7 and 1 are preceeded by a space so when sending the message they'll also have the space and look ok.
