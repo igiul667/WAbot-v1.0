@@ -25,7 +25,7 @@ else
 fi
 
 echo "Installing/updating node modules"
-npm i --upgrade  mime-types venom-bot node-emoji
+npm install  mime-types venom-bot node-emoji
 if [ $? -eq 0 ]; then
     echo "Sucesfully installed Node.js packages"
 else
@@ -36,13 +36,15 @@ echo "Installation complete, starting configuration"
 dir_path="$(dirname $(realpath $0))/WAbot"
 echo "Configuring work dir to:$dir_path"
 read -p "Insert language for responses and TTS:" lanSet
-if [ -f "./$lanSet.lan" ]; then #check if selected lagnuage file exhists
+if [ -f "./WAbot/languages/$lanSet.lan" ]; then #check if selected lagnuage file exhists
     echo "Sucesfully selected language: $lanSet"
 else
     echo "Language selected is not valid, aborting"
     exit 6
 fi
-printf "%s\n%s\npython3 " > "./WAbot/setting.set"
+echo "$dir_path" > setting.set
+echo "$lanSet" >> setting.set
+echo "python3 " >> setting.set
 echo "Configuration complete"
 exit 0
 
