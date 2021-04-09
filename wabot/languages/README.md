@@ -1,6 +1,6 @@
 ## Language file format
 This files must contain information according to the following scheme based in english:
-| line |       content       |
+| Line |       Content       |
 |------|:-------------------:|
 |    0 | Error message       |
 |    1 |   on youtube         |
