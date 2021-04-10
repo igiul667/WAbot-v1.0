@@ -107,7 +107,7 @@ function start(filename, strNum, callback) {
 }
 function main(client) { //check for new messages (runs in loop forever)
     client.onMessage((message) => {
-        await client.sendSeen(message.from);
+        client.sendSeen(message.from);
         if (message.type == "chat") {
             //console.log("Detected new message:", message.body);
             if (message.body.startsWith(".roberto")) {
@@ -229,15 +229,15 @@ async function sticker(client, chatId, message, title) {
         console.error(red, "Error downloading media");
     });
     await client.startTyping(chatId);
-#    if (ext == ".gif") { #NOT WORKING
-#        client.sendImageAsStickerGif(chatId, setArr[0] + title + ext)
-#            .then((res) => {
-#                fs.unlinkSync(setArr[0] + title + ext);
-#            })
-#            .catch((erro) => {
-#                console.error(red, "Error sending sticker gif");
-#            });
-#    }
+/*    if (ext == ".gif") { //NOT WORKING
+        client.sendImageAsStickerGif(chatId, setArr[0] + title + ext)
+            .then((res) => {
+                fs.unlinkSync(setArr[0] + title + ext);
+            })
+            .catch((erro) => {
+                console.error(red, "Error sending sticker gif");
+            });
+    }*/
     if (ext == ".jpeg") {
         client.sendImageAsSticker(chatId, setArr[0] + title + ext)
             .then((res) => {
