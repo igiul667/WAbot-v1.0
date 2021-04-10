@@ -13,7 +13,7 @@ const white = "\x1b[37m";
 console.log("Starting\n _    _  ___  _           _     _               __   _____ \n| |  | |/ _ \\| |         | |   (_)             /  | |  _  |\n| |  | / /_\\ \\ |__   ___ | |_   _ ___  __   __ `| | | | | |\n| |/\\| |  _  | '_ \\ / _ \\| __| | / __| \\ \\ / /  | | | | | |\n\\  /\\  / | | | |_) | (_) | |_ _| \\__ \\  \\ V \/  _| |_\\ |_/ /\n \\/  \\/\\_| |_/_.__/ \\___/ \\__(_) |___/   \\_/   \\___(_)___/ \n                              _/ |                         \n                             |__/                          ");
 console.log(green, "Loading venom lib");
 const venom = require('venom-bot');     //interface for whatsapp
-console.log(green, "Loading mime lib"); 
+console.log(green, "Loading mime lib");
 const mime = require('mime-types');    //mime library
 console.log(green, "Loading emoj lib");
 const emoji = require('node-emoji')     //aggiungere emoj ai messaggi
@@ -32,7 +32,7 @@ const setArr = [];
 */
 try {
         const data = fs.readFileSync("./setting.set", 'UTF-8');
-        const lines = data.split("\n");
+        const lines = data.split(/\r?\n/);
         lines.forEach((line) => {
             setArr.push(line);
         });
@@ -40,7 +40,7 @@ try {
         console.error(err);
     }
     if (setArr.length != 3) {//number of settings inside file
-        console.error("%sInvalid settings file, contains: %d entries", red, setArr.lenght);
+        console.error("%sInvalid settings file, contains: %s entries", red, setArr.lenght);
         exit(99);
     }
     else {
@@ -51,7 +51,7 @@ process.chdir(setArr[0]);//set running directory
 //LOAD lanGUAGE FILES------------------------
 //expand for information about file
 /* 0: error message
-*  1: search on youtube        
+*  1: search on youtube
 *  2: search audio message
 *  3: search video message
 *  4: here's what i found
@@ -62,7 +62,7 @@ process.chdir(setArr[0]);//set running directory
 console.log("%sLoading language file: %s/languages/%s.lan",white,setArr[0],setArr[1]);
 
 //START MAIN [usage:start(filename, N° strings, success callback)
-start(setArr[0] + "/languages/" + setArr[1]+".lan", 8, function(){ 
+start(setArr[0] + "/languages/" + setArr[1]+".lan", 8, function(){
     //code only runs if language file OK
     //start the venom library
     venom
@@ -88,7 +88,7 @@ start(setArr[0] + "/languages/" + setArr[1]+".lan", 8, function(){
 function start(filename, strNum, callback) {
     try {
         const data = fs.readFileSync(filename, 'UTF-8');
-        const lines = data.split("\n");
+        const lines = data.split(/\r?\n/);
         lines.forEach((line) => {
             strArr.push(line);
         });
@@ -96,7 +96,7 @@ function start(filename, strNum, callback) {
         console.error(err);
     }
     if (strArr.length != strNum) {
-        console.error("%sInvalid language file, contains: %d entries", red, strArr.lenght);
+        console.error("%sInvalid language file, contains: %s entries", red, strArr.lenght);
         exit(100);
     }
     else {
@@ -107,18 +107,24 @@ function start(filename, strNum, callback) {
 }
 function main(client) { //check for new messages (runs in loop forever)
     client.onMessage((message) => {
+        await client.sendSeen(message.from);
         if (message.type == "chat") {
-            if (message.body.startsWith(".tts")) {
-                tts(client, message.body.replace(".tts", ""), message.from, message.timestamp);
+            //console.log("Detected new message:", message.body);
+            if (message.body.startsWith(".roberto")) {
+                //console.log("Roberto");
+                tts(client, message.body.replace(".roberto", ""), message.from, message.timestamp);
             }
             if (message.body.startsWith(".audio")) {
+                //console.log("Audio");
                 audio(client, message.body.replace(".audio", ""), message.from, message.timestamp);
             }
             if (message.body.startsWith(".video")) {
+                //console.log("Video");
                 video(client, message.body.replace(".video", ""), message.from, message.timestamp);
             }
-            if (message.body.startsWith(".photo")) {
-                foto(client, message.body.replace(".photo", ""), message.from, message.timestamp);
+            if (message.body.startsWith(".foto")) {
+                //console.log("Foto");
+                foto(client, message.body.replace(".foto", ""), message.from, message.timestamp);
             }
         }
         else {
@@ -143,7 +149,8 @@ function sendErr(client, chatId) {//Inizializzare funzione invio errore
 }
 //BOT----------------------------------------
 async function tts(client, text, chatId, title) { //funzione per generare audio (TTS) e inviare
-    console.log("%sCalling external program: %s%stts.py -c \"%s\" -n %s -l %s", green, setArr[2], setArr[0], text, title, setArr[1]);
+//    console.log("%sCalling external program: %s%stts.py -c \"%s\" -n %s -l %s", green, setArr[2], setArr[0], text, title, setArr[1]);
+    await client.startTyping(chatId);
     await exec.execSync(setArr[2] + setArr[0] + 'tts.py -c "' + text + '" -n ' + title + ' -l ' + setArr[1]);
     client
         .sendFile(chatId, setArr[0] + title + ".mp3", text, "")
@@ -155,10 +162,12 @@ async function tts(client, text, chatId, title) { //funzione per generare audio 
             console.error("%sError sending tts audio! (filename:%s.mp3)", red, title);
             sendErr(client, chatId);
         });
+    await client.stopTyping(chatId);
 }
 async function audio(client, text, chatId, title) { //funzione per generare audio e inviare
-    console.log("%salling external program: %s%sytd.py -t \"%s\" -n %s -m audio", green, setArr[2], setArr[0], text, title);
+//    console.log("%salling external program: %s%sytd.py -t \"%s\" -n %s -m audio", green, setArr[2], setArr[0], text, title);
     await client.sendText(chatId, emoji.get('mag') + strArr[2] + text + strArr[1]);
+    await client.startTyping(chatId);
     await exec.execSync(setArr[2] + setArr[0] + 'ytd.py -t "' + text + '" -n ' + title + ' -m audio');
     client
         .sendFile(chatId, setArr[0] + title + ".mp3", text, "")
@@ -172,10 +181,12 @@ async function audio(client, text, chatId, title) { //funzione per generare audi
             console.error("%sError sending video! (filename:%s.mp3)", red, title);
             sendErr(client, chatId);
         });
+    await client.stopTyping(chatId);
 }
 async function video(client, text, chatId, title) { //funzione per generare video e inviare
-    console.log("%sCalling external program: %s%sytd.py -t \"%s\" -n %s -m video", green, setArr[2], setArr[0], text, title);
+//    console.log("%sCalling external program: %s%sytd.py -t \"%s\" -n %s -m video", green, setArr[2], setArr[0], text, title);
     await client.sendText(chatId, emoji.get('mag') + strArr[3] + text + strArr[1]); //invio messaggio unknowledge
+    await client.startTyping(chatId);
     await exec.execSync(setArr[2] + setArr[0] + 'ytd.py -t "' + text + '" -n ' + title + ' -m video'); //esegui python script
     client //invia file
         .sendFile(chatId, setArr[0] + title + ".mp4", text, emoji.get('white_check_mark') + strArr[4] + text)
@@ -187,6 +198,7 @@ async function video(client, text, chatId, title) { //funzione per generare vide
             console.error("%sError sending video! (filename:%s.mp4)", red, title);
             sendErr(client, chatId);
         });
+    await client.stopTyping(chatId);
 }
 async function foto(client, text, chatId, title) { //funzione per generare foto e inviare
     var mode = "-";
@@ -194,8 +206,9 @@ async function foto(client, text, chatId, title) { //funzione per generare foto 
         text.replace("NSFW", "");
         mode = "NSFW";
     }
-    console.log("%sCalling external program: %s%sfoto.py -t \"%s\" -n %s -m %s", green, setArr[2], setArr[0], text, title, mode);
+//    console.log("%sCalling external program: %s%sfoto.py -t \"%s\" -n %s -m %s", green, setArr[2], setArr[0], text, title, mode);
     await client.sendText(chatId, emoji.get('mag') + strArr[6] + text + strArr[7]); //invio messaggio unknowledge
+    await client.startTyping(chatId);
     await exec.execSync(setArr[2] + setArr[0] + 'foto.py -t "' + text + '" -n ' + title + ' -m ' + mode); //esegui python script
     client //invia file
         .sendFile(chatId, setArr[0] + title + ".jpg", text, emoji.get('white_check_mark') + strArr[4] + text)
@@ -207,32 +220,33 @@ async function foto(client, text, chatId, title) { //funzione per generare foto 
             console.error("%sError sending foto! (filename:%s.jpg)", red, title);
             sendErr(client, chatId);
         });
+    await client.stopTyping(chatId);
 }
 async function sticker(client, chatId, message, title) {
     const buffer = await client.decryptFile(message);
     const ext = "." + await mime.extension(message.mimetype);
     fs.writeFileSync(setArr[0] + title + ext, buffer, (err) => {
-        console.log(red, "Error downloading media");
+        console.error(red, "Error downloading media");
     });
-    if (ext == ".gif") {
-        client.sendImageAsStickerGif(chatId, setArr[0] + title + ext)
-            .then((res) => {
-                fs.unlinkSync(setArr[0] + title + ext);
-            })
-            .catch((erro) => {
-                console.log(red, "Error sending sticker gif");
-            });
-    }
+    await client.startTyping(chatId);
+#    if (ext == ".gif") { #NOT WORKING
+#        client.sendImageAsStickerGif(chatId, setArr[0] + title + ext)
+#            .then((res) => {
+#                fs.unlinkSync(setArr[0] + title + ext);
+#            })
+#            .catch((erro) => {
+#                console.error(red, "Error sending sticker gif");
+#            });
+#    }
     if (ext == ".jpeg") {
         client.sendImageAsSticker(chatId, setArr[0] + title + ext)
             .then((res) => {
                 fs.unlinkSync(setArr[0] + title + ext);
             })
             .catch((erro) => {
-                console.log(red, "Error sending sticker");
+                console.error(red, "Error sending sticker");
             });
     }
+    await client.stopTyping(chatId);
 
 }
-
-
