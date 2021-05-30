@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "This file will install WAbot version: "
 echo "Installing/checking python libraries..."
-pip3 install youtube-search-python pytube pydub Google-Images-Search gtts  > /dev/null
+pip3 install youtube-search-python  pydub youtube_dl Google-Images-Search gtts  > /dev/null
 echo "Installing/checking FFmpeg"
 if sudo apt-get install ffmpeg -y > /dev/null; then
   echo "Succesfully installed FFmpeg"
